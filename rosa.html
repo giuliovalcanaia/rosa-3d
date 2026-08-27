@@ -45,36 +45,59 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // 2. Função Paramétrica baseada na fórmula do Paul Nylander
-    function roseFunction(u, v, target) {
-      // u mapeia a variável radial 'x' de [0, 1]
-      // v mapeia o ângulo 'theta' de [-2*PI, 15*PI]
+    function roseFunctionOpen(u, v, target) {
       const x = u;
       const theta = -2 * Math.PI + v * (17 * Math.PI);
-
       const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
-
-      // Módulo equivalente a Mod[3.6 theta, 2 Pi]
       let mod = (3.6 * theta) % (2 * Math.PI);
       if (mod < 0) mod += 2 * Math.PI;
-
       const X = 1 - 0.5 * Math.pow(1.25 * Math.pow(1 - mod / Math.PI, 2) - 0.25, 2);
       const y = 1.95653 * Math.pow(x, 2) * Math.pow(1.27689 * x - 1, 2) * Math.sin(phi);
       const r = X * (x * Math.sin(phi) + y * Math.cos(phi));
+      const posX = r * Math.sin(theta);
+      const posY = r * Math.cos(theta);
+      const posZ = X * (x * Math.cos(phi) - y * Math.sin(phi));
+      target.set(posX, posY, posZ);
+    }
 
+    function roseFunctionClosed(u, v, target) {
+      const x = u;
+      const theta = -2 * Math.PI + v * (17 * Math.PI);
+      const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
+      let mod = (3.6 * theta) % (2 * Math.PI);
+      if (mod < 0) mod += 2 * Math.PI;
+      const X = 1 - 0.5 * Math.pow(1.25 * Math.pow(1 - mod / Math.PI, 2) - 0.25, 2);
+      const y = 1.95653 * Math.pow(x, 2) * Math.pow(1.27689 * x - 1, 2) * Math.sin(phi);
+      const r = X * (x * Math.sin(phi) + y * Math.cos(phi));
       const posX = r * Math.sin(theta);
       const posY = r * Math.cos(theta);
       const posZ = X * (x * Math.cos(phi) - y * Math.sin(phi));
 
-      target.set(posX, posY, posZ);
+      // Fator de dobra: 0 no centro, 1 na borda, com curva suave
+      const fold = Math.pow(u, 4);
+
+      // Puxa a borda para o centro (reduz raio XY)
+      const shrink = 1 - 0.8 * fold;
+
+      // Eleva a borda para simular enrolamento para cima (proporcional ao raio original)
+      const rOriginal = Math.sqrt(posX * posX + posY * posY);
+      const lift = rOriginal * 1 * fold;
+
+      target.set(posX * shrink, posY * shrink, posZ * 0.4 + lift);
     }
 
-    // 3. Geometria e Material
-    // Resolução da malha: 30 divisões em x, 600 em theta
-    const geometry = new THREE.ParametricGeometry(roseFunction, 30, 600);
+    // 3. Geometrias Aberta e Fechada
+    const STACKS = 30;
+    const SLICES = 600;
+    const geometryOpen = new THREE.ParametricGeometry(roseFunctionOpen, STACKS, SLICES);
+    const geometryClosed = new THREE.ParametricGeometry(roseFunctionClosed, STACKS, SLICES);
+
+    // Geometria ativa: interpolamos seus vértices a cada frame
+    const geometry = geometryOpen.clone();
 
     const material = new THREE.MeshPhongMaterial({
-      color: 0xe60033,       // Vermelho Rosa
-      side: THREE.DoubleSide, // Renderiza ambos os lados da superfície
+      color: 0xe60033,
+      side: THREE.DoubleSide,
       shininess: 40,
       specular: 0x222222
     });
@@ -102,10 +125,8 @@
     });
 
     // 5. Controle de Abrir/Fechar
-    let isOpen = true;
-    let currentScale = 1.0;
-    const OPEN_SCALE = 1.0;
-    const CLOSED_SCALE = 0.25;
+    let isOpen = false;
+    let currentOpenness = 0; // 1 = aberta, 0 = fechada
     const ANIMATION_SPEED = 0.05;
 
     function toggleRose() {
@@ -136,14 +157,30 @@
     });
 
     // 6. Loop de Animação
+    const posAttr = geometry.attributes.position;
+    const posOpen = geometryOpen.attributes.position;
+    const posClosed = geometryClosed.attributes.position;
+    const vertexCount = posAttr.count;
+
     function animate() {
       requestAnimationFrame(animate);
       roseMesh.rotation.z += 0.005; // Rotação suave contínua
 
       // Animação suave de abertura/fechamento
-      const targetScale = isOpen ? OPEN_SCALE : CLOSED_SCALE;
-      currentScale += (targetScale - currentScale) * ANIMATION_SPEED;
-      roseMesh.scale.set(currentScale, currentScale, currentScale);
+      const targetOpenness = isOpen ? 1.0 : 0.0;
+      currentOpenness += (targetOpenness - currentOpenness) * ANIMATION_SPEED;
+
+      // Interpola cada vértice entre fechado e aberto
+      const closedArr = posClosed.array;
+      const openArr = posOpen.array;
+      const currentArr = posAttr.array;
+      const t = currentOpenness;
+
+      for (let i = 0; i < vertexCount * 3; i++) {
+        currentArr[i] = closedArr[i] + (openArr[i] - closedArr[i]) * t;
+      }
+      posAttr.needsUpdate = true;
+      geometry.computeVertexNormals();
 
       controls.update();
       renderer.render(scene, camera);
