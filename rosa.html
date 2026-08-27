@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Rosa Paramétrica 3D</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #050505;
+      font-family: sans-serif;
+    }
+
+    #info {
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      color: #ffffff;
+      pointer-events: none;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/ParametricGeometry.js"></script>
+</head>
+
+<body>
+
+  <div id="info">Clique e arraste para rotacionar a Rosa 3D</div>
+
+  <script>
+    // 1. Cena, Câmera e Renderizador
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, -3, 2);
+    camera.up.set(0, 0, 1); // Orientação Z para cima
+
+    const renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // 2. Função Paramétrica baseada na fórmula do Paul Nylander
+    function roseFunction(u, v, target) {
+      // u mapeia a variável radial 'x' de [0, 1]
+      // v mapeia o ângulo 'theta' de [-2*PI, 15*PI]
+      const x = u;
+      const theta = -2 * Math.PI + v * (17 * Math.PI);
+
+      const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
+
+      // Módulo equivalente a Mod[3.6 theta, 2 Pi]
+      let mod = (3.6 * theta) % (2 * Math.PI);
+      if (mod < 0) mod += 2 * Math.PI;
+
+      const X = 1 - 0.5 * Math.pow(1.25 * Math.pow(1 - mod / Math.PI, 2) - 0.25, 2);
+      const y = 1.95653 * Math.pow(x, 2) * Math.pow(1.27689 * x - 1, 2) * Math.sin(phi);
+      const r = X * (x * Math.sin(phi) + y * Math.cos(phi));
+
+      const posX = r * Math.sin(theta);
+      const posY = r * Math.cos(theta);
+      const posZ = X * (x * Math.cos(phi) - y * Math.sin(phi));
+
+      target.set(posX, posY, posZ);
+    }
+
+    // 3. Geometria e Material
+    // Resolução da malha: 30 divisões em x, 600 em theta
+    const geometry = new THREE.ParametricGeometry(roseFunction, 30, 600);
+
+    const material = new THREE.MeshPhongMaterial({
+      color: 0xe60033,       // Vermelho Rosa
+      side: THREE.DoubleSide, // Renderiza ambos os lados da superfície
+      shininess: 40,
+      specular: 0x222222
+    });
+
+    const roseMesh = new THREE.Mesh(geometry, material);
+    scene.add(roseMesh);
+
+    // 4. Iluminação
+    const ambientLight = new THREE.AmbientLight(0x333333);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
+    dirLight1.position.set(5, 5, 10);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0xff0044, 0.5);
+    dirLight2.position.set(-5, -5, -2);
+    scene.add(dirLight2);
+
+    // Ajuste ao redimensionar a janela
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // 5. Loop de Animação
+    function animate() {
+      requestAnimationFrame(animate);
+      roseMesh.rotation.z += 0.005; // Rotação suave contínua
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+
+</html>
