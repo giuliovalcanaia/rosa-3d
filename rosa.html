@@ -8,17 +8,30 @@
     body {
       margin: 0;
       overflow: hidden;
-      background-color: #050505;
+      background-color: #1A1A2E;
       font-family: sans-serif;
     }
 
-    #info {
+    #title {
       position: absolute;
       top: 10px;
       width: 100%;
       text-align: center;
       color: #ffffff;
       pointer-events: none;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(230, 0, 51, 0.7);
+    }
+
+    #info {
+      position: absolute;
+      top: 45px;
+      width: 100%;
+      text-align: center;
+      color: #aaaaaa;
+      pointer-events: none;
+      font-size: 0.9em;
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -28,11 +41,13 @@
 
 <body>
 
+  <div id="title">Uma rosa para você</div>
   <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
 
   <script>
     // 1. Cena, Câmera e Renderizador
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1A1A2E);
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, -3, 2);
     camera.up.set(0, 0, 1); // Orientação Z para cima
