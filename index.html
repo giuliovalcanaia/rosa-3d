@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Rosa Paramétrica 3D</title>
   <style>
     body {
@@ -10,6 +11,12 @@
       overflow: hidden;
       background-color: #1A1A2E;
       font-family: sans-serif;
+      touch-action: none;
+    }
+
+    canvas {
+      touch-action: none;
+      display: block;
     }
 
     #title {
@@ -22,6 +29,8 @@
       font-size: 1.5em;
       font-weight: bold;
       text-shadow: 0 0 10px rgba(230, 0, 51, 0.7);
+      padding: 0 10px;
+      box-sizing: border-box;
     }
 
     #info {
@@ -32,6 +41,19 @@
       color: #aaaaaa;
       pointer-events: none;
       font-size: 0.9em;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 600px) {
+      #title {
+        font-size: 1.1em;
+        top: 8px;
+      }
+      #info {
+        font-size: 0.75em;
+        top: 36px;
+      }
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -54,7 +76,8 @@
 
     const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.domElement.style.touchAction = 'none';
     document.body.appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -133,9 +156,16 @@
     scene.add(dirLight2);
 
     // Ajuste ao redimensionar a janela
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+    function updateCameraFOV() {
+      const aspect = window.innerWidth / window.innerHeight;
+      camera.fov = aspect < 1 ? 65 : 45;
+      camera.aspect = aspect;
       camera.updateProjectionMatrix();
+    }
+    updateCameraFOV();
+
+    window.addEventListener('resize', () => {
+      updateCameraFOV();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
