@@ -28,7 +28,7 @@
 
 <body>
 
-  <div id="info">Clique e arraste para rotacionar a Rosa 3D</div>
+  <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
 
   <script>
     // 1. Cena, Câmera e Renderizador
@@ -101,10 +101,50 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // 5. Loop de Animação
+    // 5. Controle de Abrir/Fechar
+    let isOpen = true;
+    let currentScale = 1.0;
+    const OPEN_SCALE = 1.0;
+    const CLOSED_SCALE = 0.25;
+    const ANIMATION_SPEED = 0.05;
+
+    function toggleRose() {
+      isOpen = !isOpen;
+    }
+
+    // Detecta clique seco (sem arrasto) para alternar aberto/fechado
+    let isPointerDown = false;
+    let pointerDownX = 0;
+    let pointerDownY = 0;
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      isPointerDown = true;
+      pointerDownX = e.clientX;
+      pointerDownY = e.clientY;
+    });
+
+    renderer.domElement.addEventListener('pointerup', (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      const dx = e.clientX - pointerDownX;
+      const dy = e.clientY - pointerDownY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      // Se moveu menos de 5 pixels, considera um clique seco
+      if (distance < 5) {
+        toggleRose();
+      }
+    });
+
+    // 6. Loop de Animação
     function animate() {
       requestAnimationFrame(animate);
       roseMesh.rotation.z += 0.005; // Rotação suave contínua
+
+      // Animação suave de abertura/fechamento
+      const targetScale = isOpen ? OPEN_SCALE : CLOSED_SCALE;
+      currentScale += (targetScale - currentScale) * ANIMATION_SPEED;
+      roseMesh.scale.set(currentScale, currentScale, currentScale);
+
       controls.update();
       renderer.render(scene, camera);
     }
