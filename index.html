@@ -67,6 +67,59 @@
   <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
 
   <script>
+    // Função para calcular tempo de relacionamento
+    function calcularTempoJuntos() {
+      const dataInicio = new Date(2025, 8, 7); // 7 de setembro de 2025 (mês 8 = setembro, zero-indexed)
+      const agora = new Date();
+
+      let anos = agora.getFullYear() - dataInicio.getFullYear();
+      let meses = agora.getMonth() - dataInicio.getMonth();
+      let dias = agora.getDate() - dataInicio.getDate();
+
+      // Ajusta se o dia atual for menor que o dia de início
+      if (dias < 0) {
+        meses--;
+        // Calcula dias do mês anterior
+        const mesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0);
+        dias += mesAnterior.getDate();
+      }
+
+      // Ajusta se os meses ficarem negativos
+      if (meses < 0) {
+        anos--;
+        meses += 12;
+      }
+
+      // Monta as partes do texto
+      const partes = [];
+      if (anos > 0) {
+        partes.push(anos + (anos === 1 ? ' ano' : ' anos'));
+      }
+      if (meses > 0) {
+        partes.push(meses + (meses === 1 ? ' mês' : ' meses'));
+      }
+      if (dias > 0) {
+        partes.push(dias + (dias === 1 ? ' dia' : ' dias'));
+      }
+
+      // Caso especial: se for exatamente o dia de início (0 anos, 0 meses, 0 dias)
+      if (partes.length === 0) {
+        return 'Juntos há 0 dias';
+      }
+
+      // Junta as partes com vírgulas e "e" na última
+      if (partes.length === 1) {
+        return 'Juntos há ' + partes[0];
+      } else if (partes.length === 2) {
+        return 'Juntos há ' + partes.join(' e ');
+      } else {
+        return 'Juntos há ' + partes.slice(0, -1).join(', ') + ' e ' + partes[partes.length - 1];
+      }
+    }
+
+    // Atualiza o título com o tempo calculado
+    document.getElementById('title').textContent = calcularTempoJuntos();
+
     // 1. Cena, Câmera e Renderizador
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1A1A2E);
