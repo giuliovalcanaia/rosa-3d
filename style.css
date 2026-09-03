@@ -36,16 +36,27 @@ body {
     text-align: center;
   }
 
+  .header-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 80px;
+  }
+
   #title {
     font-size: 2em;
     font-weight: bold;
-    margin-bottom: 10px;
   }
 
   #countdown {
     font-size: 1em;
-    margin-bottom: 80px;
     color: #ffffff;
+  }
+
+  #info {
+    font-size: 0.9em;
+    color: #aaaaaa;
   }
 
   #formula {
@@ -77,17 +88,6 @@ body {
     display: block;
     width: 100%;
     height: 100%;
-  }
-
-  #info {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    color: #aaaaaa;
-    pointer-events: none;
-    font-size: 0.9em;
-    padding: 0 15px;
   }
 }
 
@@ -122,12 +122,22 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    width: 100%;
   }
 
   #title {
-    position: absolute;
-    top: 10px;
-    width: 100%;
     text-align: center;
     color: #ffffff;
     font-size: 1.2em;
@@ -136,9 +146,6 @@ body {
   }
 
   #countdown {
-    position: absolute;
-    top: 46px;
-    width: 100%;
     text-align: center;
     color: #ffffff;
     font-size: 0.8em;
@@ -146,9 +153,6 @@ body {
   }
 
   #info {
-    position: absolute;
-    top: 70px;
-    width: 100%;
     text-align: center;
     color: #aaaaaa;
     font-size: 0.7em;
@@ -157,8 +161,6 @@ body {
   }
 
   #formula {
-    position: absolute;
-    bottom: 12vh;
     width: 100%;
     text-align: center;
     color: #ffffff;
@@ -168,6 +170,7 @@ body {
     cursor: pointer;
     pointer-events: auto;
     transition: opacity 0.2s;
+    margin-bottom: 12vh;
   }
 
   #formula:hover {
