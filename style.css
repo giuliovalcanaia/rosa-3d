@@ -49,6 +49,16 @@ body {
     font-weight: bold;
   }
 
+  #title.title-toggle {
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.3s;
+  }
+
+  #title.title-toggle:hover {
+    opacity: 0.85;
+  }
+
   #countdown {
     font-size: 1em;
     color: #ffffff;
@@ -143,6 +153,16 @@ body {
     font-size: 1.2em;
     font-weight: bold;
     padding: 0 10px;
+  }
+
+  #title.title-toggle {
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.3s;
+  }
+
+  #title.title-toggle:hover {
+    opacity: 0.85;
   }
 
   #countdown {

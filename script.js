@@ -1,5 +1,5 @@
 // Data de início do namoro (mês é zero-indexed: janeiro = 0, setembro = 8)
-const DATA_INICIO = new Date(2025, 8, 7); // 7 de setembro de 2025
+const DATA_INICIO = new Date(2025, 8, 3); // 7 de setembro de 2025
 
 // Função para calcular tempo de relacionamento
 function calcularTempoJuntos() {
@@ -89,9 +89,142 @@ function calcularContadorRegressivo() {
   return 'Faltam ' + diasRestantes + (diasRestantes === 1 ? ' dia ' : ' dias ') + 'para o ' + textoMarco + ' de namoro';
 }
 
-// Atualiza o título com o tempo calculado
-document.getElementById('title').textContent = calcularTempoJuntos();
-document.getElementById('countdown').textContent = calcularContadorRegressivo();
+// Função auxiliar para calcular anos, meses e total de meses decorridos
+function calcularDadosTempo() {
+  const agora = new Date();
+  let anos = agora.getFullYear() - DATA_INICIO.getFullYear();
+  let meses = agora.getMonth() - DATA_INICIO.getMonth();
+  let dias = agora.getDate() - DATA_INICIO.getDate();
+
+  if (dias < 0) {
+    meses--;
+    const mesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0);
+    dias += mesAnterior.getDate();
+  }
+
+  if (meses < 0) {
+    anos--;
+    meses += 12;
+  }
+
+  const totalMeses = anos * 12 + meses;
+  return { anos, meses, dias, totalMeses };
+}
+
+// Função para determinar o nome da boda atual
+function calcularBoda() {
+  const { totalMeses } = calcularDadosTempo();
+
+  if (totalMeses <= 0) {
+    return { principal: null, tipoPrincipal: null, alternativa: null, tipoAlternativa: null, clicavel: false };
+  }
+
+  // 1 a 11 meses: bodas mensais
+  if (totalMeses >= 1 && totalMeses <= 11) {
+    return {
+      principal: 'Bodas de ' + BODAS.mensais[totalMeses],
+      tipoPrincipal: 'mensal',
+      alternativa: null,
+      tipoAlternativa: null,
+      clicavel: false
+    };
+  }
+
+  // A partir de 12 meses
+  const ano = Math.floor(totalMeses / 12);
+  const mesRestante = totalMeses % 12;
+
+  // Ano redondo (ex: 12, 24, 36 meses)
+  if (mesRestante === 0) {
+    return {
+      principal: 'Bodas de ' + BODAS.anuais[ano],
+      tipoPrincipal: 'anual',
+      alternativa: null,
+      tipoAlternativa: null,
+      clicavel: false
+    };
+  }
+
+  // Ano + meses (ex: 13 meses = 1 ano + 1 mês)
+  const subBoda = BODAS.subAnuais[ano] && BODAS.subAnuais[ano][mesRestante];
+  if (subBoda) {
+    return {
+      principal: 'Bodas de ' + subBoda,
+      tipoPrincipal: 'mensal',
+      alternativa: 'Bodas de ' + BODAS.anuais[ano],
+      tipoAlternativa: 'anual',
+      clicavel: true
+    };
+  }
+
+  // Fallback: se não houver sub-boda cadastrada
+  return {
+    principal: 'Bodas de ' + BODAS.anuais[ano],
+    tipoPrincipal: 'anual',
+    alternativa: null,
+    tipoAlternativa: null,
+    clicavel: false
+  };
+}
+
+// Atualiza o título, countdown e boda
+const titleEl = document.getElementById('title');
+const countdownEl = document.getElementById('countdown');
+
+const textoTempo = calcularTempoJuntos();
+countdownEl.textContent = calcularContadorRegressivo();
+
+const bodaInfo = calcularBoda();
+let estadoCiclo = 0; // 0 = tempo, 1 = mensal, 2 = anual
+
+function renderTitle() {
+  if (estadoCiclo === 0 || !bodaInfo.principal) {
+    titleEl.textContent = textoTempo;
+    return;
+  }
+
+  if (estadoCiclo === 1) {
+    titleEl.textContent = bodaInfo.principal + ' — ' + bodaInfo.tipoPrincipal;
+    return;
+  }
+
+  if (estadoCiclo === 2 && bodaInfo.alternativa) {
+    titleEl.textContent = bodaInfo.alternativa + ' — ' + bodaInfo.tipoAlternativa;
+    return;
+  }
+
+  // Se estado 2 não tem alternativa, volta para tempo
+  estadoCiclo = 0;
+  titleEl.textContent = textoTempo;
+}
+
+renderTitle();
+
+// Adiciona classe de toggle se tiver bodas para mostrar
+if (bodaInfo.principal) {
+  titleEl.classList.add('title-toggle');
+}
+
+titleEl.addEventListener('click', (e) => {
+  e.stopPropagation();
+
+  if (!bodaInfo.principal) return;
+
+  // Avança o estado ciclicamente
+  estadoCiclo++;
+
+  // Se não tem alternativa, pula o estado 2
+  if (estadoCiclo === 2 && !bodaInfo.alternativa) {
+    estadoCiclo = 0;
+  }
+
+  // Se passou do 2, volta para 0
+  if (estadoCiclo > 2) {
+    estadoCiclo = 0;
+  }
+
+  renderTitle();
+});
 
 // Abre o post original ao clicar na fórmula
 document.getElementById('formula').addEventListener('click', () => {
