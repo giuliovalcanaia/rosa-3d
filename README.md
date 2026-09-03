@@ -9,6 +9,9 @@ Uma página web interativa e romântica que exibe uma rosa tridimensional param�
 - **Contador de Relacionamento**: exibe o tempo de namoro em anos, meses e dias, atualizado dinamicamente no título da página
 - **Contador Regressivo**: mostra quantos dias faltam para o próximo mês-versário ou aniversário
 - **Interatividade**: rotacione a câmera arrastando com o mouse (ou toque)
+- **Trava de Rotação**: clique e segure (~400ms) para travar ou destravar a rotação automática da rosa
+- **Fórmula LaTeX Clicável**: clique na fórmula matemática para abrir o artigo original do Paul Nylander
+- **Wireframe Overlay**: malha wireframe semi-transparente sobreposta para realce visual
 - **Responsivo**: adaptado para desktop e dispositivos móveis
 
 ## Demonstração
@@ -21,6 +24,7 @@ O projeto está configurado para rodar no GitHub Pages. Acesse o repositório pu
 - CSS3
 - JavaScript (Vanilla)
 - [Three.js](https://threejs.org/) (via CDN)
+- [MathJax](https://www.mathjax.org/) (via CDN) — renderização da fórmula LaTeX
 
 ## Como executar localmente
 
