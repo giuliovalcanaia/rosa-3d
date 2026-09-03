@@ -167,7 +167,19 @@ const material = new THREE.MeshPhongMaterial({
 });
 
 const roseMesh = new THREE.Mesh(geometry, material);
-scene.add(roseMesh);
+
+const wireMaterial = new THREE.MeshBasicMaterial({
+  color: 0x000000,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.15
+});
+const wireMesh = new THREE.Mesh(geometry, wireMaterial);
+
+const roseGroup = new THREE.Group();
+roseGroup.add(roseMesh);
+roseGroup.add(wireMesh);
+scene.add(roseGroup);
 
 // 4. Iluminação
 const ambientLight = new THREE.AmbientLight(0x333333);
@@ -235,7 +247,7 @@ const vertexCount = posAttr.count;
 
 function animate() {
   requestAnimationFrame(animate);
-  roseMesh.rotation.z += 0.005; // Rotação suave contínua
+  roseGroup.rotation.z += 0.005; // Rotação suave contínua
 
   // Animação suave de abertura/fechamento
   const targetOpenness = isOpen ? 1.0 : 0.0;
