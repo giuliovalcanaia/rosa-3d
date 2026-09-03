@@ -1,6 +1,3 @@
-// Data de início do namoro (mês é zero-indexed: janeiro = 0, setembro = 8)
-const DATA_INICIO = new Date(2025, 8, 7); // 7 de setembro de 2025
-
 // Função para calcular tempo de relacionamento
 function calcularTempoJuntos() {
   const agora = new Date();
