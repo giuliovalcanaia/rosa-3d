@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #1A1A2E;
+  font-family: sans-serif;
+  touch-action: none;
+}
+
+canvas {
+  touch-action: none;
+  display: block;
+}
+
+#title {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  pointer-events: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+#countdown {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  pointer-events: none;
+  font-size: 0.85em;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+#info {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  text-align: center;
+  color: #aaaaaa;
+  pointer-events: none;
+  font-size: 0.9em;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  #title {
+    font-size: 1.1em;
+    top: 8px;
+  }
+
+  #countdown {
+    font-size: 0.72em;
+    top: 36px;
+  }
+
+  #info {
+    font-size: 0.75em;
+    top: 56px;
+  }
+}
