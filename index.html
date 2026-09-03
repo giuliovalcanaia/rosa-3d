@@ -87,14 +87,16 @@
   <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
 
   <script>
+    // Data de início do namoro (mês é zero-indexed: janeiro = 0, setembro = 8)
+    const DATA_INICIO = new Date(2025, 8, 7); // 7 de setembro de 2025
+
     // Função para calcular tempo de relacionamento
     function calcularTempoJuntos() {
-      const dataInicio = new Date(2025, 8, 7); // 7 de setembro de 2025 (mês 8 = setembro, zero-indexed)
       const agora = new Date();
 
-      let anos = agora.getFullYear() - dataInicio.getFullYear();
-      let meses = agora.getMonth() - dataInicio.getMonth();
-      let dias = agora.getDate() - dataInicio.getDate();
+      let anos = agora.getFullYear() - DATA_INICIO.getFullYear();
+      let meses = agora.getMonth() - DATA_INICIO.getMonth();
+      let dias = agora.getDate() - DATA_INICIO.getDate();
 
       // Ajusta se o dia atual for menor que o dia de início
       if (dias < 0) {
@@ -138,7 +140,6 @@
     }
 
     function calcularContadorRegressivo() {
-      const dataInicio = new Date(2025, 8, 7); // 7 de setembro de 2025
       const agora = new Date();
 
       // Encontrar o próximo dia 7
@@ -154,7 +155,7 @@
       const diasRestantes = Math.ceil((proximoMarco - agora) / umDia);
 
       // Calcular quantos meses se passaram desde o início até o próximo marco
-      const mesesDecorridos = (proximoMarco.getFullYear() - dataInicio.getFullYear()) * 12 + (proximoMarco.getMonth() - dataInicio.getMonth());
+      const mesesDecorridos = (proximoMarco.getFullYear() - DATA_INICIO.getFullYear()) * 12 + (proximoMarco.getMonth() - DATA_INICIO.getMonth());
 
       // Determinar se é aniversário ou mês-versário
       let textoMarco;
