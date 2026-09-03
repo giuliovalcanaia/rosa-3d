@@ -20,11 +20,11 @@ O projeto está configurado para rodar no GitHub Pages. Acesse o repositório pu
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
-- [Three.js](https://threejs.org/) r128 (via CDN)
+- [Three.js](https://threejs.org/) (via CDN)
 
 ## Como executar localmente
 
-Como o projeto é um único arquivo HTML estático, basta abrir o `index.html` diretamente no navegador:
+Abra o `index.html` diretamente no navegador ou use um servidor local:
 
 ```bash
 # Navegue até a pasta do projeto e abra o arquivo
@@ -38,9 +38,7 @@ python3 -m http.server 8000
 
 ### Alterar a data de início do namoro
 
-Para adaptar o projeto ao seu relacionamento, edite a constante global no arquivo `index.html`:
-
-**Linha ~93**:
+Para adaptar o projeto ao seu relacionamento, edite a constante global no arquivo `script.js`:
 
 ```javascript
 const DATA_INICIO = new Date(2025, 8, 7); // 7 de setembro de 2025
@@ -54,7 +52,9 @@ Altere essa linha para a data desejada, mantendo o formato `new Date(ano, mes, d
 
 ```
 rosa-3d/
-└── index.html
+├── index.html
+├── style.css
+└── script.js
 ```
 
 ## Referências
