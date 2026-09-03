@@ -9,6 +9,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/ParametricGeometry.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      chtml: { mtextInheritFont: true }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body>
@@ -16,6 +26,12 @@
   <div id="title">Uma rosa para você</div>
   <div id="countdown"></div>
   <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
+
+  <div id="formula">
+    $$\varphi(\theta) = \frac{\pi}{2} e^{-\theta / 8\pi},$$
+    $$X(\theta) = 1 - \frac{1}{2} \left( \frac{5}{4} \left( 1 - \frac{\theta \bmod 2\pi}{\pi} \right)^2 - \frac{1}{4} \right)^2,$$
+    $$(x, y, z) = (r \sin\theta, \, r \cos\theta, \, X(x \cos\varphi - y \sin\varphi))$$
+  </div>
 
   <script src="script.js"></script>
 </body>
