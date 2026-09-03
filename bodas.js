@@ -1,0 +1,153 @@
+const BODAS = {
+  mensais: {
+    1: "Beijinho",
+    2: "Sorvete",
+    3: "Algodão-doce",
+    4: "Pipoca",
+    5: "Chocolate",
+    6: "Pluminha",
+    7: "Purpurina",
+    8: "Pompom",
+    9: "Maternidade",
+    10: "Pintinhos",
+    11: "Chicletes"
+  },
+
+  anuais: {
+    1: "Milagre",
+    2: "Dedo-de-moça",
+    3: "Cristal",
+    4: "Quartzo azul",
+    5: "Paixão",
+    6: "Rosas",
+    7: "Tulipas",
+    8: "Flor de jade",
+    9: "Orquídeas",
+    10: "Milagre",
+    11: "Romance",
+    12: "Estrela do mar",
+    13: "Sereia",
+    14: "Doce de leite",
+    15: "Amor eterno"
+  },
+
+  subAnuais: {
+    1: {
+      1: "Cartas",
+      2: "Marshmallow",
+      3: "Passeio",
+      4: "Luz",
+      5: "Mensagens (sms)",
+      6: "Piquenique",
+      7: "Bis",
+      8: "Amizade colorida",
+      9: "Ursinho",
+      10: "Fondue",
+      11: "Velas"
+    },
+    2: {
+      1: "Príncipe",
+      2: "Fantasias",
+      3: "Cinema na sala",
+      4: "Fotos",
+      5: "Brigadeiro",
+      6: "Vídeo game",
+      7: "Crepom",
+      8: "Sorriso",
+      9: "Sonhos",
+      10: "Sex and Love",
+      11: "Paçoca"
+    },
+    3: {
+      1: "Desenho",
+      2: "Música",
+      3: "Desejo",
+      4: "Carinho",
+      5: "Doce de Leite",
+      6: "Felicidade",
+      7: "Cupcakes",
+      8: "Melancia",
+      9: "Champanhe",
+      10: "Massagem",
+      11: "Morango com leite condensado"
+    },
+    4: {
+      1: "Morango",
+      2: "Abraços",
+      3: "Caramelo",
+      4: "Erva doce",
+      5: "Amendoim",
+      6: "Jujubas",
+      7: "Lasanha",
+      8: "Coração",
+      9: "Surpresa",
+      10: "Futebol",
+      11: "Mc Donalds"
+    },
+    5: {
+      1: "Cachaça",
+      2: "Vinho Branco",
+      3: "Lasanha",
+      4: "Milk Shake",
+      5: "Mickey e da Minnie",
+      6: "Shrek e Fiona",
+      7: "Subway",
+      8: "Kit Kat",
+      9: "Rodizio de pizza ou churrasco",
+      10: "Livro",
+      11: "Viagem"
+    },
+    6: {
+      1: "Cappuccino",
+      2: "Álbum de fotos",
+      3: "Sorte",
+      4: "Pinguim",
+      5: "Coca – cola",
+      6: "Metade da Laranja",
+      7: "Arco- iris",
+      8: "Pedacinho do céu",
+      9: "Romeu e Julieta",
+      10: "Casadinhos",
+      11: "Pão de mel"
+    },
+    7: {
+      1: "Coração",
+      2: "Torta de bombom",
+      3: "Meu malvado favorito",
+      4: "Habib's",
+      5: "caminhas de bicicleta",
+      6: "Alto Astral",
+      7: "Confete",
+      8: "Beijo Adormecido",
+      9: "Asas da Imaginação",
+      10: "Floresta Negra",
+      11: "Cetim"
+    },
+    8: {
+      1: "Mistério",
+      2: "Lua Cheia",
+      3: "Cores",
+      4: "Guarda Chuvas",
+      5: "Eternidade",
+      6: "Explosão de Sentimentos",
+      7: "Lágrimas",
+      8: "Pétalas de Rosas",
+      9: "Camurça",
+      10: "Mel de Abelha",
+      11: "Piu-Piu e Frajola"
+    },
+    9: {
+      1: "Prazer",
+      2: "Fidelidade",
+      3: "Corujinhas ou pinguim",
+      4: "Comida japonesa",
+      5: "Teatro",
+      6: "Letra de música",
+      7: "Aliança",
+      8: "Por do sol",
+      9: "Ciúmes",
+      10: "Gotas de alegria",
+      11: "Príncipes e princesas"
+    }
+  }
+};
