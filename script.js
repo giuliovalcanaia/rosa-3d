@@ -113,7 +113,7 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 // 2. Função Paramétrica baseada na fórmula do Paul Nylander
 function roseFunctionOpen(u, v, target) {
   const x = u;
-  const theta = -2 * Math.PI + v * (17 * Math.PI);
+  const theta = -2.222 * Math.PI + v * (18.333 * Math.PI);
   const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
   let mod = (3.6 * theta) % (2 * Math.PI);
   if (mod < 0) mod += 2 * Math.PI;
@@ -128,7 +128,7 @@ function roseFunctionOpen(u, v, target) {
 
 function roseFunctionClosed(u, v, target) {
   const x = u;
-  const theta = -2 * Math.PI + v * (17 * Math.PI);
+  const theta = -2.222 * Math.PI + v * (18.333 * Math.PI);
   const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
   let mod = (3.6 * theta) % (2 * Math.PI);
   if (mod < 0) mod += 2 * Math.PI;
