@@ -102,7 +102,7 @@ camera.up.set(0, 0, 1); // Orientação Z para cima
 
 const canvasContainer = document.getElementById('canvas-container');
 
-const renderer = new THREE.WebGLRenderer({antialias: true});
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.domElement.style.touchAction = 'none';
@@ -161,11 +161,13 @@ const geometryClosed = new THREE.ParametricGeometry(roseFunctionClosed, STACKS, 
 // Geometria ativa: interpolamos seus vértices a cada frame
 const geometry = geometryOpen.clone();
 
-const material = new THREE.MeshPhongMaterial({
+// MeshStandardMaterial (PBR) em vez de Phong: roughness alto e metalness 0
+// dão um acabamento fosco/aveludado, sem o reflexo pontual "plástico"
+const material = new THREE.MeshStandardMaterial({
   color: 0xe60033,
   side: THREE.DoubleSide,
-  shininess: 40,
-  specular: 0x222222
+  roughness: 0.85,
+  metalness: 0.0
 });
 
 const roseMesh = new THREE.Mesh(geometry, material);
@@ -184,16 +186,31 @@ roseGroup.add(wireMesh);
 scene.add(roseGroup);
 
 // 4. Iluminação
-const ambientLight = new THREE.AmbientLight(0x333333);
-scene.add(ambientLight);
+// Luz hemisférica: substitui a ambiente plana por um preenchimento suave
+// com um leve gradiente entre "céu" e "chão", só para nunca ter preto puro.
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x442233, 0.7);
+scene.add(hemiLight);
 
-const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
-dirLight1.position.set(5, 5, 10);
-scene.add(dirLight1);
+// Luz de contorno (rim light) bem fraca, fixa no mundo, só para dar
+// uma pontinha de contraste/cor na silhueta — não deve competir com o headlight.
+// const dirLight2 = new THREE.DirectionalLight(0xff0044, 0.15);
+// dirLight2.position.set(-5, -5, -2);
+// scene.add(dirLight2);
 
-const dirLight2 = new THREE.DirectionalLight(0xff0044, 0.5);
-dirLight2.position.set(-5, -5, -2);
-scene.add(dirLight2);
+// Headlight: luz principal presa à câmera, sempre apontando para onde
+// a câmera está olhando (como uma lanterna de capacete). Como ela acompanha
+// o ponto de vista, o lado que você está vendo está sempre bem iluminado
+// e o "lado de trás" nunca aparece escuro, porque você nunca o vê mesmo.
+const headLight = new THREE.DirectionalLight(0xffffff, 1.3);
+headLight.position.set(0, 0, 1);   // um pouco atrás da câmera
+camera.add(headLight);
+
+const headLightTarget = new THREE.Object3D();
+headLightTarget.position.set(0, 0, -1); // à frente da câmera (direção do olhar)
+camera.add(headLightTarget);
+headLight.target = headLightTarget;
+
+scene.add(camera); // necessário para as luzes filhas da câmera serem renderizadas
 
 // Ajuste ao redimensionar a janela
 function updateCameraFOV() {
