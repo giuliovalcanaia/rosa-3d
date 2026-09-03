@@ -100,11 +100,13 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 camera.position.set(0, -3, 2);
 camera.up.set(0, 0, 1); // Orientação Z para cima
 
+const canvasContainer = document.getElementById('canvas-container');
+
 const renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.domElement.style.touchAction = 'none';
-document.body.appendChild(renderer.domElement);
+canvasContainer.appendChild(renderer.domElement);
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -195,7 +197,9 @@ scene.add(dirLight2);
 
 // Ajuste ao redimensionar a janela
 function updateCameraFOV() {
-  const aspect = window.innerWidth / window.innerHeight;
+  const w = canvasContainer.clientWidth;
+  const h = canvasContainer.clientHeight;
+  const aspect = w / h;
   camera.fov = aspect < 1 ? 65 : 45;
   camera.aspect = aspect;
   camera.updateProjectionMatrix();
@@ -203,8 +207,10 @@ function updateCameraFOV() {
 updateCameraFOV();
 
 window.addEventListener('resize', () => {
+  const w = canvasContainer.clientWidth;
+  const h = canvasContainer.clientHeight;
   updateCameraFOV();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(w, h);
 });
 
 // 5. Controle de Abrir/Fechar
