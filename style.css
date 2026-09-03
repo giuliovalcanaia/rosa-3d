@@ -48,19 +48,44 @@ canvas {
   box-sizing: border-box;
 }
 
+#formula {
+  position: absolute;
+  bottom: 70px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  pointer-events: none;
+  font-size: 0.95em;
+  padding: 0 15px;
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+
+#formula mjx-container {
+  display: block;
+  margin: 4px 0;
+}
+
 @media (max-width: 600px) {
   #title {
-    font-size: 1.1em;
+    font-size: 1.2em;
     top: 8px;
   }
 
   #countdown {
-    font-size: 0.72em;
-    top: 36px;
+    font-size: 0.8em;
+    top: 46px;
   }
 
   #info {
-    font-size: 0.75em;
-    top: 56px;
+    font-size: 0.7em;
+    top: 70px;
+  }
+
+  #formula {
+    font-size: 0.8em;
+    bottom: 70px;
+    padding: 0 10px;
+    line-height: 1.5;
   }
 }
