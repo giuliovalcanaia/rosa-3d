@@ -93,6 +93,11 @@ function calcularContadorRegressivo() {
 document.getElementById('title').textContent = calcularTempoJuntos();
 document.getElementById('countdown').textContent = calcularContadorRegressivo();
 
+// Abre o post original ao clicar na fórmula
+document.getElementById('formula').addEventListener('click', () => {
+  window.open('https://nylander.wordpress.com/2006/06/21/rose-shaped-parametric-surface/', '_blank');
+});
+
 // 1. Cena, Câmera e Renderizador
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1A1A2E);
@@ -128,7 +133,7 @@ function roseFunctionOpen(u, v, target) {
 
 function roseFunctionClosed(u, v, target) {
   const x = u;
-  const theta = -2.222 * Math.PI + v * (18.333 * Math.PI);
+  const theta = -2.222 * Math.PI + v * (17 * Math.PI);
   const phi = (Math.PI / 2) * Math.exp(-theta / (8 * Math.PI));
   let mod = (3.6 * theta) % (2 * Math.PI);
   if (mod < 0) mod += 2 * Math.PI;

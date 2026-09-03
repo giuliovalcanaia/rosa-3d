@@ -52,6 +52,13 @@ body {
     font-size: 1em;
     line-height: 1.6;
     color: #ffffff;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.2s;
+  }
+
+  #formula:hover {
+    opacity: 0.8;
   }
 
   #formula mjx-container {
@@ -158,6 +165,13 @@ body {
     font-size: 0.8em;
     padding: 0 10px;
     line-height: 1.5;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.2s;
+  }
+
+  #formula:hover {
+    opacity: 0.8;
   }
 
   #formula mjx-container {
