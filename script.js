@@ -193,15 +193,15 @@ scene.add(hemiLight);
 
 // Luz de contorno (rim light) bem fraca, fixa no mundo, só para dar
 // uma pontinha de contraste/cor na silhueta — não deve competir com o headlight.
-// const dirLight2 = new THREE.DirectionalLight(0xff0044, 0.15);
-// dirLight2.position.set(-5, -5, -2);
-// scene.add(dirLight2);
+const dirLight2 = new THREE.DirectionalLight(0xff0044, 0.15);
+dirLight2.position.set(-5, -5, -2);
+scene.add(dirLight2);
 
 // Headlight: luz principal presa à câmera, sempre apontando para onde
 // a câmera está olhando (como uma lanterna de capacete). Como ela acompanha
 // o ponto de vista, o lado que você está vendo está sempre bem iluminado
 // e o "lado de trás" nunca aparece escuro, porque você nunca o vê mesmo.
-const headLight = new THREE.DirectionalLight(0xffffff, 1.3);
+const headLight = new THREE.DirectionalLight(0xffffff, 0.8);
 headLight.position.set(0, 0, 1);   // um pouco atrás da câmera
 camera.add(headLight);
 
