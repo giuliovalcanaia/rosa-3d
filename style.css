@@ -1,91 +1,166 @@
-body {
+/* Reset básico */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
   overflow: hidden;
   background-color: #1A1A2E;
   font-family: sans-serif;
   touch-action: none;
 }
 
-canvas {
-  touch-action: none;
-  display: block;
-}
+/* ========== DESKTOP (min-width: 769px) ========== */
+@media (min-width: 769px) {
+  #app {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+  }
 
-#title {
-  position: absolute;
-  top: 10px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  pointer-events: none;
-  font-size: 1.5em;
-  font-weight: bold;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
+  #text-panel {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: #ffffff;
+    pointer-events: none;
+    text-align: center;
+  }
 
-#countdown {
-  position: absolute;
-  top: 45px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  pointer-events: none;
-  font-size: 0.85em;
-  padding: 0 15px;
-  box-sizing: border-box;
-}
-
-#info {
-  position: absolute;
-  top: 70px;
-  width: 100%;
-  text-align: center;
-  color: #aaaaaa;
-  pointer-events: none;
-  font-size: 0.9em;
-  padding: 0 15px;
-  box-sizing: border-box;
-}
-
-#formula {
-  position: absolute;
-  bottom: 70px;
-  width: 100%;
-  text-align: center;
-  color: #ffffff;
-  pointer-events: none;
-  font-size: 0.95em;
-  padding: 0 15px;
-  box-sizing: border-box;
-  line-height: 1.6;
-}
-
-#formula mjx-container {
-  display: block;
-  margin: 4px 0;
-}
-
-@media (max-width: 600px) {
   #title {
-    font-size: 1.2em;
-    top: 8px;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
 
   #countdown {
-    font-size: 0.8em;
-    top: 46px;
-  }
-
-  #info {
-    font-size: 0.7em;
-    top: 70px;
+    font-size: 1em;
+    margin-bottom: 80px;
+    color: #ffffff;
   }
 
   #formula {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  #formula mjx-container {
+    display: block;
+    margin: 6px 0;
+  }
+
+  #canvas-container {
+    width: 65%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #canvas-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #info {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    color: #aaaaaa;
+    pointer-events: none;
+    font-size: 0.9em;
+    padding: 0 15px;
+  }
+}
+
+/* ========== MOBILE (max-width: 768px) ========== */
+@media (max-width: 768px) {
+  #app {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  #canvas-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
+
+  #text-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  #title {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 10px;
+  }
+
+  #countdown {
+    position: absolute;
+    top: 46px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
     font-size: 0.8em;
+    padding: 0 15px;
+  }
+
+  #info {
+    position: absolute;
+    top: 70px;
+    width: 100%;
+    text-align: center;
+    color: #aaaaaa;
+    font-size: 0.7em;
+    padding: 0 15px;
+    pointer-events: none;
+  }
+
+  #formula {
+    position: absolute;
     bottom: 70px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.8em;
     padding: 0 10px;
     line-height: 1.5;
+  }
+
+  #formula mjx-container {
+    display: block;
+    margin: 4px 0;
   }
 }
