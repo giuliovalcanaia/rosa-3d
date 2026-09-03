@@ -228,6 +228,71 @@ document.getElementById('formula').addEventListener('click', () => {
   window.open('https://nylander.wordpress.com/2006/06/21/rose-shaped-parametric-surface/', '_blank');
 });
 
+// Função hash para gerar cor diária baseada na data
+function getDailyHSVColor() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const dateStr = `${year}-${month}-${day}`;
+
+  let hash = 2166136261;
+  for (let i = 0; i < dateStr.length; i++) {
+    hash ^= dateStr.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  let h = Math.abs(hash) % 360;
+
+  // Evita a faixa de vermelho (330° a 30°): se cair perto da cor padrão,
+  // usa o inverso (complementar de 180° no círculo cromático)
+  const isVermelho = (h >= 330 || h <= 30);
+  if (isVermelho) {
+    h = (h + 180) % 360;
+  }
+
+  const s = 1.0;
+  const v = 0.9;
+
+  const c = v * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = v - c;
+
+  let rPrime = 0, gPrime = 0, bPrime = 0;
+
+  if (h >= 0 && h < 60) {
+    rPrime = c; gPrime = x; bPrime = 0;
+  } else if (h >= 60 && h < 120) {
+    rPrime = x; gPrime = c; bPrime = 0;
+  } else if (h >= 120 && h < 180) {
+    rPrime = 0; gPrime = c; bPrime = x;
+  } else if (h >= 180 && h < 240) {
+    rPrime = 0; gPrime = x; bPrime = c;
+  } else if (h >= 240 && h < 300) {
+    rPrime = x; gPrime = 0; bPrime = c;
+  } else if (h >= 300 && h < 360) {
+    rPrime = c; gPrime = 0; bPrime = x;
+  }
+
+  const r = Math.round((rPrime + m) * 255);
+  const g = Math.round((gPrime + m) * 255);
+  const b = Math.round((bPrime + m) * 255);
+
+  const hexNum = parseInt('0x' + [r, g, b].map(n => n.toString(16).padStart(2, '0')).join(''), 16);
+
+  return {
+    date: dateStr,
+    hue: `${h}°`,
+    hex: hexNum
+  };
+}
+
+// Verifica se hoje é o dia do mês-versário ou aniversário
+function isDiaDoMarco() {
+  const today = new Date();
+  return today.getDate() === DATA_INICIO.getDate();
+}
+
 // 1. Cena, Câmera e Renderizador
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1A1A2E);
@@ -298,8 +363,12 @@ const geometry = geometryOpen.clone();
 
 // MeshStandardMaterial (PBR) em vez de Phong: roughness alto e metalness 0
 // dão um acabamento fosco/aveludado, sem o reflexo pontual "plástico"
+// No dia do mês-versário/aniversário, usa cor única gerada por hash da data
+const corPadrao = 0xe60033;
+const corDoDia = isDiaDoMarco() ? getDailyHSVColor().hex : corPadrao;
+
 const material = new THREE.MeshStandardMaterial({
-  color: 0xe60033,
+  color: corDoDia,
   side: THREE.DoubleSide,
   roughness: 0.85,
   metalness: 0.0
