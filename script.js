@@ -223,19 +223,38 @@ function toggleRose() {
 }
 
 // Detecta clique seco (sem arrasto) para alternar aberto/fechado
+// e clique e segure para travar/destravar o giro
 let isPointerDown = false;
 let pointerDownX = 0;
 let pointerDownY = 0;
+let isRotationLocked = false;
+let pointerHoldTimeout = null;
+let didHold = false;
 
 renderer.domElement.addEventListener('pointerdown', (e) => {
   isPointerDown = true;
+  didHold = false;
   pointerDownX = e.clientX;
   pointerDownY = e.clientY;
+
+  pointerHoldTimeout = setTimeout(() => {
+    isRotationLocked = true;
+    didHold = true;
+  }, 400);
 });
 
 renderer.domElement.addEventListener('pointerup', (e) => {
   if (!isPointerDown) return;
   isPointerDown = false;
+
+  clearTimeout(pointerHoldTimeout);
+
+  if (didHold) {
+    isRotationLocked = false;
+    didHold = false;
+    return;
+  }
+
   const dx = e.clientX - pointerDownX;
   const dy = e.clientY - pointerDownY;
   const distance = Math.sqrt(dx * dx + dy * dy);
@@ -253,7 +272,9 @@ const vertexCount = posAttr.count;
 
 function animate() {
   requestAnimationFrame(animate);
-  roseGroup.rotation.z += 0.005; // Rotação suave contínua
+  if (!isRotationLocked) {
+    roseGroup.rotation.z += 0.005; // Rotação suave contínua
+  }
 
   // Animação suave de abertura/fechamento
   const targetOpenness = isOpen ? 1.0 : 0.0;
