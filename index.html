@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Rosa Paramétrica 3D</title>
+  <title>Rosa 3D</title>
   <style>
     body {
       margin: 0;
@@ -28,14 +28,27 @@
       pointer-events: none;
       font-size: 1.5em;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(230, 0, 51, 0.7);
+
       padding: 0 10px;
       box-sizing: border-box;
     }
 
-    #info {
+    #countdown {
       position: absolute;
       top: 45px;
+      width: 100%;
+      text-align: center;
+      color: #ffffff;
+      pointer-events: none;
+      font-size: 0.85em;
+      padding: 0 15px;
+      box-sizing: border-box;
+
+    }
+
+    #info {
+      position: absolute;
+      top: 70px;
       width: 100%;
       text-align: center;
       color: #aaaaaa;
@@ -50,9 +63,15 @@
         font-size: 1.1em;
         top: 8px;
       }
+
+      #countdown {
+        font-size: 0.72em;
+        top: 36px;
+      }
+
       #info {
         font-size: 0.75em;
-        top: 36px;
+        top: 56px;
       }
     }
   </style>
@@ -64,6 +83,7 @@
 <body>
 
   <div id="title">Uma rosa para você</div>
+  <div id="countdown"></div>
   <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar a Rosa 3D</div>
 
   <script>
@@ -117,8 +137,49 @@
       }
     }
 
+    function calcularContadorRegressivo() {
+      const dataInicio = new Date(2025, 8, 7); // 7 de setembro de 2025
+      const agora = new Date();
+
+      // Encontrar o próximo dia 7
+      let proximoMarco = new Date(agora.getFullYear(), agora.getMonth(), 7);
+
+      // Se hoje já passou do dia 7, ou é exatamente o dia 7, o próximo marco é no dia 7 do próximo mês
+      if (agora.getDate() >= 7) {
+        proximoMarco.setMonth(proximoMarco.getMonth() + 1);
+      }
+
+      // Calcular dias restantes
+      const umDia = 24 * 60 * 60 * 1000;
+      const diasRestantes = Math.ceil((proximoMarco - agora) / umDia);
+
+      // Calcular quantos meses se passaram desde o início até o próximo marco
+      const mesesDecorridos = (proximoMarco.getFullYear() - dataInicio.getFullYear()) * 12 + (proximoMarco.getMonth() - dataInicio.getMonth());
+
+      // Determinar se é aniversário ou mês-versário
+      let textoMarco;
+      if (mesesDecorridos % 12 === 0) {
+        const anos = mesesDecorridos / 12;
+        textoMarco = anos === 1 ? 'aniversário de 1 ano' : 'aniversário de ' + anos + ' anos';
+      } else {
+        const anos = Math.floor(mesesDecorridos / 12);
+        const meses = mesesDecorridos % 12;
+
+        if (anos === 0) {
+          textoMarco = meses === 1 ? 'mês-versário de 1 mês' : 'mês-versário de ' + meses + ' meses';
+        } else {
+          const textoAnos = anos === 1 ? '1 ano' : anos + ' anos';
+          const textoMeses = meses === 1 ? '1 mês' : meses + ' meses';
+          textoMarco = 'mês-versário de ' + textoAnos + ' e ' + textoMeses;
+        }
+      }
+
+      return 'Faltam ' + diasRestantes + (diasRestantes === 1 ? ' dia ' : ' dias ') + 'para o ' + textoMarco + ' de namoro';
+    }
+
     // Atualiza o título com o tempo calculado
     document.getElementById('title').textContent = calcularTempoJuntos();
+    document.getElementById('countdown').textContent = calcularContadorRegressivo();
 
     // 1. Cena, Câmera e Renderizador
     const scene = new THREE.Scene();
