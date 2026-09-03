@@ -53,11 +53,11 @@ function calcularTempoJuntos() {
 function calcularContadorRegressivo() {
   const agora = new Date();
 
-  // Encontrar o próximo dia 7
-  let proximoMarco = new Date(agora.getFullYear(), agora.getMonth(), 7);
+  // Encontrar o próximo dia do aniversário/mês-versário
+  let proximoMarco = new Date(agora.getFullYear(), agora.getMonth(), DATA_INICIO.getDate());
 
-  // Se hoje já passou do dia 7, ou é exatamente o dia 7, o próximo marco é no dia 7 do próximo mês
-  if (agora.getDate() >= 7) {
+  // Se hoje já passou do dia do aniversário, ou é exatamente o dia, o próximo marco é no próximo mês
+  if (agora.getDate() >= DATA_INICIO.getDate()) {
     proximoMarco.setMonth(proximoMarco.getMonth() + 1);
   }
 
