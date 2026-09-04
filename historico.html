@@ -53,29 +53,49 @@
     }
 
     const grid = document.getElementById('grid-rosas');
-    const datas = gerarDatasMesVersario();
+    const datas = gerarDatasMesVersario().reverse(); // mais recente primeiro
 
-    datas.forEach(function (data) {
-      const entrada = montarEntradaIdenticon(data);
-      const canvas = criarCanvasIdenticon(entrada, 512);
-      const dataUrl = canvas.toDataURL('image/png');
+    const CHUNK_SIZE = 4;
+    let index = 0;
 
-      const card = document.createElement('a');
-      card.className = 'card-rosa';
-      card.href = 'rosa-identicon.html?data=' + encodeURIComponent(entrada);
+    function renderChunk() {
+      const chunk = datas.slice(index, index + CHUNK_SIZE);
+      if (chunk.length === 0) return;
 
-      const img = document.createElement('img');
-      img.src = dataUrl;
-      img.alt = 'Rosa de ' + formatarDataBR(data);
+      const fragment = document.createDocumentFragment();
 
-      const span = document.createElement('span');
-      span.className = 'data-rosa';
-      span.textContent = formatarDataBR(data);
+      chunk.forEach(function (data) {
+        const entrada = montarEntradaIdenticon(data);
+        const canvas = criarCanvasIdenticon(entrada, 512);
+        const dataUrl = canvas.toDataURL('image/png');
 
-      card.appendChild(img);
-      card.appendChild(span);
-      grid.appendChild(card);
-    });
+        const card = document.createElement('a');
+        card.className = 'card-rosa';
+        card.href = 'rosa-identicon.html?data=' + encodeURIComponent(entrada);
+
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.alt = 'Rosa de ' + formatarDataBR(data);
+        img.loading = 'lazy';
+
+        const span = document.createElement('span');
+        span.className = 'data-rosa';
+        span.textContent = formatarDataBR(data);
+
+        card.appendChild(img);
+        card.appendChild(span);
+        fragment.appendChild(card);
+      });
+
+      grid.appendChild(fragment);
+      index += CHUNK_SIZE;
+
+      if (index < datas.length) {
+        requestAnimationFrame(renderChunk);
+      }
+    }
+
+    requestAnimationFrame(renderChunk);
   </script>
 
 </body>
