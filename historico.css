@@ -14,14 +14,69 @@ body {
   overflow-x: hidden;
 }
 
-/* Header da página: seta + título centralizados juntos */
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5vh;
-  padding: 2vh;
-  padding-bottom: 1vh;
+/* ========== MOBILE (max-width: 768px) ========== */
+@media (max-width: 768px) {
+  /* Header da página: seta + título centralizados juntos */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    padding: 2vh;
+    padding-bottom: 1vh;
+  }
+
+  /* Título da página */
+  .page-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  /* Grade de rosas — 3 colunas fixas */
+  .grid-rosas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vh;
+    padding: 0 2vh 4vh 2vh;
+  }
+}
+
+/* ========== DESKTOP (min-width: 769px) ========== */
+@media (min-width: 769px) {
+  /* Header da página: seta + título centralizados juntos */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    padding: 2vh;
+    padding-bottom: 1vh;
+  }
+
+  /* Título da página */
+  .page-title {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  /* Grade de rosas — adaptativo */
+  .grid-rosas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+    padding: 0 2vh 4vh 2vh;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Data abaixo da imagem */
+  .data-rosa {
+    font-size: 0.9em;
+  }
 }
 
 /* Botão voltar */
@@ -36,22 +91,6 @@ body {
 
 .btn-voltar svg {
   display: block;
-}
-
-/* Título da página */
-.page-title {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #ffffff;
-  margin: 0;
-}
-
-/* Grade de rosas — 3 colunas */
-.grid-rosas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2vh;
-  padding: 0 2vh 4vh 2vh;
 }
 
 /* Card individual */
