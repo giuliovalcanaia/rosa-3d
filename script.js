@@ -202,8 +202,29 @@ if (bodaInfo.principal) {
   titleEl.classList.add('title-toggle');
 }
 
+let titleHoldTimeout = null;
+let titleDidHold = false;
+
+titleEl.addEventListener('pointerdown', (e) => {
+  e.stopPropagation();
+  titleDidHold = false;
+  titleHoldTimeout = setTimeout(() => {
+    titleDidHold = true;
+    window.location.href = 'historico.html';
+  }, 400);
+});
+
+titleEl.addEventListener('pointerup', (e) => {
+  clearTimeout(titleHoldTimeout);
+});
+
 titleEl.addEventListener('click', (e) => {
   e.stopPropagation();
+
+  if (titleDidHold) {
+    titleDidHold = false;
+    return;
+  }
 
   if (!bodaInfo.principal) return;
 
