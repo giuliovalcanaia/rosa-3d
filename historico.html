@@ -1,1 +1,82 @@
-Hello World
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Histórico de Rosas Especiais</title>
+  <link rel="stylesheet" href="historico.css">
+  <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.3.0/dist/jdenticon.min.js"
+    integrity="sha384-LfouGM03m83ArVtne1JPk926e3SGD0Tz8XHtW2OKGsgeBU/UfR0Fa8eX+UlwSSAZ"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div class="page-header">
+    <a href="index.html" class="btn-voltar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="21" y1="12" x2="3" y2="12"></line>
+        <polyline points="9 6 3 12 9 18"></polyline>
+      </svg>
+    </a>
+    <h1 class="page-title">Histórico de Rosas Especiais</h1>
+  </div>
+
+  <div class="grid-rosas" id="grid-rosas"></div>
+
+  <script src="config.js"></script>
+  <script src="identicon.js"></script>
+  <script>
+    function gerarDatasMesVersario() {
+      const datas = [];
+      let data = new Date(DATA_INICIO);
+      while (data <= DATA_ATUAL) {
+        datas.push(new Date(data));
+        data.setMonth(data.getMonth() + 1);
+      }
+      return datas;
+    }
+
+    function formatarDataBR(data) {
+      const dia = String(data.getDate()).padStart(2, '0');
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      const ano = data.getFullYear();
+      return dia + '/' + mes + '/' + ano;
+    }
+
+    function montarEntradaIdenticon(dataVersario) {
+      const inicioStr = DATA_INICIO.toISOString().split('T')[0];
+      const dataStr = dataVersario.toISOString().split('T')[0];
+      return inicioStr + '_' + dataStr;
+    }
+
+    const grid = document.getElementById('grid-rosas');
+    const datas = gerarDatasMesVersario();
+
+    datas.forEach(function (data) {
+      const entrada = montarEntradaIdenticon(data);
+      const canvas = criarCanvasIdenticon(entrada, 512);
+      const dataUrl = canvas.toDataURL('image/png');
+
+      const card = document.createElement('div');
+      card.className = 'card-rosa';
+
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.alt = 'Rosa de ' + formatarDataBR(data);
+
+      const span = document.createElement('span');
+      span.className = 'data-rosa';
+      span.textContent = formatarDataBR(data);
+
+      card.appendChild(img);
+      card.appendChild(span);
+      grid.appendChild(card);
+    });
+  </script>
+
+</body>
+
+</html>
