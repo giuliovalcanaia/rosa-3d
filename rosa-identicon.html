@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rosa Especial</title>
+  <link rel="stylesheet" href="rosa-identicon.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/ParametricGeometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.3.0/dist/jdenticon.min.js"
+    integrity="sha384-LfouGM03m83ArVtne1JPk926e3SGD0Tz8XHtW2OKGsgeBU/UfR0Fa8eX+UlwSSAZ"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <div id="text-panel">
+      <div class="header-stack">
+        <a href="historico.html" class="btn-voltar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="21" y1="12" x2="3" y2="12"></line>
+            <polyline points="9 6 3 12 9 18"></polyline>
+          </svg>
+        </a>
+        <div id="title"></div>
+        <div id="boda"></div>
+        <div id="info">Clique e arraste para rotacionar • Clique para abrir/fechar</div>
+      </div>
+    </div>
+
+    <div id="canvas-container">
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="bodas.js"></script>
+  <script src="identicon.js"></script>
+  <script src="rosa-identicon.js"></script>
+</body>
+
+</html>
