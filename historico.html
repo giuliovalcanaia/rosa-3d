@@ -60,8 +60,9 @@
       const canvas = criarCanvasIdenticon(entrada, 512);
       const dataUrl = canvas.toDataURL('image/png');
 
-      const card = document.createElement('div');
+      const card = document.createElement('a');
       card.className = 'card-rosa';
+      card.href = 'rosa-identicon.html?data=' + encodeURIComponent(entrada);
 
       const img = document.createElement('img');
       img.src = dataUrl;
