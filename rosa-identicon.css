@@ -21,6 +21,7 @@ body {
     flex-direction: row;
     width: 100%;
     height: 100vh;
+    position: relative;
   }
 
   #text-panel {
@@ -44,67 +45,39 @@ body {
     margin-bottom: 80px;
   }
 
+  .btn-voltar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-decoration: none;
+    pointer-events: auto;
+    margin-bottom: 10px;
+  }
+
+  .btn-voltar svg {
+    display: block;
+  }
+
   #title {
     font-size: 2em;
     font-weight: bold;
   }
 
-  #title.title-toggle {
-    cursor: pointer;
-    pointer-events: auto;
-    transition: opacity 0.3s;
-    user-select: none;
-    -webkit-user-select: none;
+  #boda {
+    font-size: 1.2em;
+    color: #ffffff;
   }
 
-  #title.title-toggle:hover {
-    opacity: 0.85;
-  }
-
-  #countdown {
-    font-size: 1em;
+  #tempo {
+    font-size: 1.8em;
+    font-weight: bold;
     color: #ffffff;
   }
 
   #info {
     font-size: 0.9em;
     color: #aaaaaa;
-  }
-
-  #download-identicon {
-    margin-top: 8px;
-    padding: 8px 16px;
-    font-size: 0.85em;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 6px;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  #download-identicon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.45);
-  }
-
-  #formula {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #ffffff;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: opacity 0.2s;
-  }
-
-  #formula:hover {
-    opacity: 0.8;
-  }
-
-  #formula mjx-container {
-    display: block;
-    margin: 6px 0;
   }
 
   #canvas-container {
@@ -118,6 +91,42 @@ body {
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  #nav-buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 65%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 5vh;
+    z-index: 5;
+  }
+
+  .nav-btn {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 10px;
+    transition: opacity 0.2s, background 0.2s;
+    pointer-events: auto;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
   }
 }
 
@@ -167,6 +176,19 @@ body {
     width: 100%;
   }
 
+  .btn-voltar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-decoration: none;
+    pointer-events: auto;
+  }
+
+  .btn-voltar svg {
+    display: block;
+  }
+
   #title {
     text-align: center;
     color: #ffffff;
@@ -175,70 +197,62 @@ body {
     padding: 0 10px;
   }
 
-  #title.title-toggle {
-    cursor: pointer;
-    pointer-events: auto;
-    transition: opacity 0.3s;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  #title.title-toggle:hover {
-    opacity: 0.85;
-  }
-
-  #countdown {
+  #boda {
     text-align: center;
     color: #ffffff;
-    font-size: 0.8em;
+    font-size: 0.9em;
     padding: 0 15px;
+  }
+
+  #tempo {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 10px;
   }
 
   #info {
     text-align: center;
     color: #aaaaaa;
     font-size: 0.7em;
-    padding: 0 15px;
+    padding: 0 15px 60px 15px;
     pointer-events: none;
   }
 
-  #download-identicon {
-    margin-top: 6px;
-    padding: 6px 12px;
-    font-size: 0.75em;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 6px;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  #download-identicon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.45);
-  }
-
-  #formula {
+  #nav-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
-    color: #ffffff;
-    font-size: 0.8em;
-    padding: 0 10px;
-    line-height: 1.5;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: opacity 0.2s;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
     margin-bottom: 12vh;
+    z-index: 5;
   }
 
-  #formula:hover {
-    opacity: 0.8;
+  .nav-btn {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 10px;
+    transition: opacity 0.2s, background 0.2s;
+    pointer-events: auto;
   }
 
-  #formula mjx-container {
-    display: block;
-    margin: 4px 0;
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
   }
 }

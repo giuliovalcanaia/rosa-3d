@@ -1,0 +1,118 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #1A1A2E;
+  font-family: sans-serif;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* ========== MOBILE (max-width: 768px) ========== */
+@media (max-width: 768px) {
+  /* Header da página: seta + título centralizados juntos */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    padding: 2vh;
+    padding-bottom: 1vh;
+  }
+
+  /* Título da página */
+  .page-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  /* Grade de rosas — 3 colunas fixas */
+  .grid-rosas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vh;
+    padding: 0 2vh 4vh 2vh;
+  }
+}
+
+/* ========== DESKTOP (min-width: 769px) ========== */
+@media (min-width: 769px) {
+  /* Header da página: seta + título centralizados juntos */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    padding: 2vh;
+    padding-bottom: 1vh;
+  }
+
+  /* Título da página */
+  .page-title {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  /* Grade de rosas — adaptativo */
+  .grid-rosas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+    padding: 0 2vh 4vh 2vh;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Data abaixo da imagem */
+  .data-rosa {
+    font-size: 0.9em;
+  }
+}
+
+/* Botão voltar */
+.btn-voltar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.btn-voltar svg {
+  display: block;
+}
+
+/* Card individual */
+.card-rosa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-rosa img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+/* Data abaixo da imagem */
+.data-rosa {
+  margin-top: 0.8vh;
+  font-size: 0.75em;
+  color: #aaaaaa;
+  text-align: center;
+}
