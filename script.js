@@ -312,9 +312,7 @@ const corDoDia = 0x000000;
 // Lógica de material: identicon em dias comemorativos, vermelho nos demais
 // Por enquanto, ativado TODO DIA para testes
 function isDiaComemorativo() {
-  // const hoje = new Date();
-  // return hoje.getDate() === DATA_INICIO.getDate(); // ou lógica de aniversário
-  return true; // <-- modo teste: identicon todo dia
+  return isDiaDoMarco();
 }
 
 let material;
