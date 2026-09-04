@@ -1,6 +1,6 @@
 // Função para calcular tempo de relacionamento
 function calcularTempoJuntos() {
-  const agora = new Date();
+  const agora = DATA_ATUAL;
 
   let anos = agora.getFullYear() - DATA_INICIO.getFullYear();
   let meses = agora.getMonth() - DATA_INICIO.getMonth();
@@ -48,7 +48,7 @@ function calcularTempoJuntos() {
 }
 
 function calcularContadorRegressivo() {
-  const agora = new Date();
+  const agora = DATA_ATUAL;
 
   // Encontrar o próximo dia do aniversário/mês-versário
   let proximoMarco = new Date(agora.getFullYear(), agora.getMonth(), DATA_INICIO.getDate());
@@ -88,7 +88,7 @@ function calcularContadorRegressivo() {
 
 // Função auxiliar para calcular anos, meses e total de meses decorridos
 function calcularDadosTempo() {
-  const agora = new Date();
+  const agora = DATA_ATUAL;
   let anos = agora.getFullYear() - DATA_INICIO.getFullYear();
   let meses = agora.getMonth() - DATA_INICIO.getMonth();
   let dias = agora.getDate() - DATA_INICIO.getDate();
@@ -231,8 +231,7 @@ document.getElementById('formula').addEventListener('click', () => {
 
 // Verifica se hoje é o dia do mês-versário ou aniversário
 function isDiaDoMarco() {
-  const today = new Date();
-  return today.getDate() === DATA_INICIO.getDate();
+  return DATA_ATUAL.getDate() === DATA_INICIO.getDate();
 }
 
 // 1. Cena, Câmera e Renderizador

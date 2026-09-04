@@ -116,8 +116,7 @@ function gerarTexturaIdenticon(entrada, tamanho = 512) {
  * DATA_INICIO (de config.js) + data atual no formato ISO (somente data).
  */
 function getEntradaIdenticon() {
-  const hoje = new Date();
-  const dataAtualStr = hoje.toISOString().split('T')[0]; // "YYYY-MM-DD"
+  const dataAtualStr = DATA_ATUAL.toISOString().split('T')[0]; // "YYYY-MM-DD"
   // DATA_INICIO é global, vinda de config.js
   const inicioStr = DATA_INICIO.toISOString().split('T')[0];
   return `${inicioStr}_${dataAtualStr}`;
