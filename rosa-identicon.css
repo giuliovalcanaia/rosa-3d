@@ -68,6 +68,12 @@ body {
     color: #ffffff;
   }
 
+  #tempo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
   #info {
     font-size: 0.9em;
     color: #aaaaaa;
@@ -159,6 +165,14 @@ body {
     color: #ffffff;
     font-size: 0.9em;
     padding: 0 15px;
+  }
+
+  #tempo {
+    text-align: center;
+    color: #ffffff;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 10px;
   }
 
   #info {

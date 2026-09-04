@@ -62,9 +62,40 @@ function calcularBodaParaData(data) {
   return 'Bodas de ' + BODAS.anuais[ano] + ' — anual';
 }
 
+// Calcula tempo "Juntos há X meses/anos" para uma data específica
+function calcularTempoParaData(data) {
+  const anos = data.getFullYear() - DATA_INICIO.getFullYear();
+  const meses = data.getMonth() - DATA_INICIO.getMonth();
+  const dias = data.getDate() - DATA_INICIO.getDate();
+
+  let totalMeses = anos * 12 + meses;
+  if (dias < 0) {
+    totalMeses--;
+  }
+
+  if (totalMeses <= 0) {
+    return 'Juntos há 0 dias';
+  }
+
+  const anosDecorridos = Math.floor(totalMeses / 12);
+  const mesesRestantes = totalMeses % 12;
+
+  if (anosDecorridos === 0) {
+    return 'Juntos há ' + totalMeses + (totalMeses === 1 ? ' mês' : ' meses');
+  }
+
+  if (mesesRestantes === 0) {
+    return 'Juntos há ' + anosDecorridos + (anosDecorridos === 1 ? ' ano' : ' anos');
+  }
+
+  return 'Juntos há ' + anosDecorridos + (anosDecorridos === 1 ? ' ano' : ' anos') +
+    ' e ' + mesesRestantes + (mesesRestantes === 1 ? ' mês' : ' meses');
+}
+
 // Preenche o painel de texto
 const titleEl = document.getElementById('title');
 const bodaEl = document.getElementById('boda');
+const tempoEl = document.getElementById('tempo');
 
 titleEl.textContent = formatarDataBR(dataVersario);
 
@@ -72,6 +103,8 @@ const bodaTexto = calcularBodaParaData(dataVersario);
 if (bodaTexto) {
   bodaEl.textContent = bodaTexto;
 }
+
+tempoEl.textContent = calcularTempoParaData(dataVersario);
 
 // 1. Cena, Câmera e Renderizador
 const scene = new THREE.Scene();
