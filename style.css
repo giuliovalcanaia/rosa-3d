@@ -53,6 +53,8 @@ body {
     cursor: pointer;
     pointer-events: auto;
     transition: opacity 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   #title.title-toggle:hover {
@@ -177,6 +179,8 @@ body {
     cursor: pointer;
     pointer-events: auto;
     transition: opacity 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   #title.title-toggle:hover {
