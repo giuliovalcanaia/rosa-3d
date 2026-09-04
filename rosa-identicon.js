@@ -1,22 +1,5 @@
-// Lê o parâmetro 'data' da URL
-const params = new URLSearchParams(window.location.search);
-const entrada = params.get('data');
+// ===== UTILITÁRIOS =====
 
-if (!entrada) {
-  window.location.href = 'historico.html';
-}
-
-// Extrai a data do mês-versário da entrada (formato: YYYY-MM-DD_YYYY-MM-DD)
-const partes = entrada.split('_');
-if (partes.length !== 2) {
-  window.location.href = 'historico.html';
-}
-
-const dataVersarioStr = partes[1];
-const [anoStr, mesStr, diaStr] = dataVersarioStr.split('-');
-const dataVersario = new Date(parseInt(anoStr), parseInt(mesStr) - 1, parseInt(diaStr));
-
-// Formata data para exibição
 function formatarDataBR(data) {
   const dia = String(data.getDate()).padStart(2, '0');
   const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -24,7 +7,6 @@ function formatarDataBR(data) {
   return dia + '/' + mes + '/' + ano;
 }
 
-// Calcula boda para uma data específica
 function calcularBodaParaData(data) {
   const anos = data.getFullYear() - DATA_INICIO.getFullYear();
   const meses = data.getMonth() - DATA_INICIO.getMonth();
@@ -39,21 +21,17 @@ function calcularBodaParaData(data) {
     return null;
   }
 
-  // 1 a 11 meses: bodas mensais
   if (totalMeses >= 1 && totalMeses <= 11) {
     return 'Bodas de ' + BODAS.mensais[totalMeses] + ' — mensal';
   }
 
-  // A partir de 12 meses
   const ano = Math.floor(totalMeses / 12);
   const mesRestante = totalMeses % 12;
 
-  // Ano redondo
   if (mesRestante === 0) {
     return 'Bodas de ' + BODAS.anuais[ano] + ' — anual';
   }
 
-  // Ano + meses
   const subBoda = BODAS.subAnuais[ano] && BODAS.subAnuais[ano][mesRestante];
   if (subBoda) {
     return 'Bodas de ' + subBoda + ' — mensal';
@@ -62,7 +40,6 @@ function calcularBodaParaData(data) {
   return 'Bodas de ' + BODAS.anuais[ano] + ' — anual';
 }
 
-// Calcula tempo "Juntos há X meses/anos" para uma data específica
 function calcularTempoParaData(data) {
   const anos = data.getFullYear() - DATA_INICIO.getFullYear();
   const meses = data.getMonth() - DATA_INICIO.getMonth();
@@ -92,21 +69,86 @@ function calcularTempoParaData(data) {
     ' e ' + mesesRestantes + (mesesRestantes === 1 ? ' mês' : ' meses');
 }
 
-// Preenche o painel de texto
+function gerarDatasMesVersario() {
+  const datas = [];
+  let data = new Date(DATA_INICIO);
+  while (data <= DATA_ATUAL) {
+    datas.push(new Date(data));
+    data.setMonth(data.getMonth() + 1);
+  }
+  return datas;
+}
+
+function montarEntradaIdenticon(dataVersario) {
+  const inicioStr = DATA_INICIO.toISOString().split('T')[0];
+  const dataStr = dataVersario.toISOString().split('T')[0];
+  return inicioStr + '_' + dataStr;
+}
+
+// ===== NAVEGAÇÃO =====
+
+const todasDatas = gerarDatasMesVersario();
+const params = new URLSearchParams(window.location.search);
+const entradaInicial = params.get('data');
+
+if (!entradaInicial) {
+  window.location.href = 'historico.html';
+}
+
+const partesEntrada = entradaInicial.split('_');
+if (partesEntrada.length !== 2) {
+  window.location.href = 'historico.html';
+}
+
+const dataVersarioStr = partesEntrada[1];
+const [anoStr, mesStr, diaStr] = dataVersarioStr.split('-');
+const dataVersarioInicial = new Date(parseInt(anoStr), parseInt(mesStr) - 1, parseInt(diaStr));
+
+let currentIndex = todasDatas.findIndex(function (d) {
+  return d.getTime() === dataVersarioInicial.getTime();
+});
+
+if (currentIndex === -1) {
+  window.location.href = 'historico.html';
+}
+
+let currentEntrada = entradaInicial;
+
 const titleEl = document.getElementById('title');
 const bodaEl = document.getElementById('boda');
 const tempoEl = document.getElementById('tempo');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
 
-titleEl.textContent = formatarDataBR(dataVersario);
-
-const bodaTexto = calcularBodaParaData(dataVersario);
-if (bodaTexto) {
-  bodaEl.textContent = bodaTexto;
+function updateTextPanel(data) {
+  titleEl.textContent = formatarDataBR(data);
+  const bodaTexto = calcularBodaParaData(data);
+  bodaEl.textContent = bodaTexto || '';
+  tempoEl.textContent = calcularTempoParaData(data);
 }
 
-tempoEl.textContent = calcularTempoParaData(dataVersario);
+function updateButtons() {
+  if (currentIndex <= 0) {
+    btnPrev.classList.add('disabled');
+    btnPrev.href = '#';
+  } else {
+    btnPrev.classList.remove('disabled');
+    const prevData = todasDatas[currentIndex - 1];
+    btnPrev.href = 'rosa-identicon.html?data=' + encodeURIComponent(montarEntradaIdenticon(prevData));
+  }
 
-// 1. Cena, Câmera e Renderizador
+  if (currentIndex >= todasDatas.length - 1) {
+    btnNext.classList.add('disabled');
+    btnNext.href = '#';
+  } else {
+    btnNext.classList.remove('disabled');
+    const nextData = todasDatas[currentIndex + 1];
+    btnNext.href = 'rosa-identicon.html?data=' + encodeURIComponent(montarEntradaIdenticon(nextData));
+  }
+}
+
+// ===== THREE.JS =====
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1A1A2E);
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -123,7 +165,6 @@ canvasContainer.appendChild(renderer.domElement);
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-// 2. Função Paramétrica baseada na fórmula do Paul Nylander
 function roseFunctionOpen(u, v, target) {
   const x = u;
   const theta = -2.222 * Math.PI + v * (18.333 * Math.PI);
@@ -160,7 +201,6 @@ function roseFunctionClosed(u, v, target) {
   target.set(posX * shrink, posY * shrink, posZ * 0.4 + lift);
 }
 
-// 3. Geometrias Aberta e Fechada
 const STACKS = 30;
 const SLICES = 600;
 const geometryOpen = new THREE.ParametricGeometry(roseFunctionOpen, STACKS, SLICES);
@@ -168,12 +208,7 @@ const geometryClosed = new THREE.ParametricGeometry(roseFunctionClosed, STACKS, 
 
 const geometry = geometryOpen.clone();
 
-// Material com identicon da data selecionada
-const identiconTexture = gerarTexturaIdenticon(entrada, 512);
-identiconTexture.repeat.set(1.5, 13);
-
 const material = new THREE.MeshStandardMaterial({
-  map: identiconTexture,
   color: 0xffffff,
   side: THREE.DoubleSide,
   roughness: 0.85,
@@ -195,7 +230,6 @@ roseGroup.add(roseMesh);
 roseGroup.add(wireMesh);
 scene.add(roseGroup);
 
-// 4. Iluminação
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x442233, 0.7);
 scene.add(hemiLight);
 
@@ -214,7 +248,6 @@ headLight.target = headLightTarget;
 
 scene.add(camera);
 
-// Ajuste ao redimensionar a janela
 function updateCameraFOV() {
   const w = canvasContainer.clientWidth;
   const h = canvasContainer.clientHeight;
@@ -232,7 +265,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(w, h);
 });
 
-// 5. Controle de Abrir/Fechar
+// Controle de Abrir/Fechar
 let isOpen = false;
 let currentOpenness = 0;
 const ANIMATION_SPEED = 0.05;
@@ -241,8 +274,6 @@ function toggleRose() {
   isOpen = !isOpen;
 }
 
-// Detecta clique seco (sem arrasto) para alternar aberto/fechado
-// e clique e segure para travar/destravar o giro
 let isPointerDown = false;
 let pointerDownX = 0;
 let pointerDownY = 0;
@@ -282,7 +313,7 @@ renderer.domElement.addEventListener('pointerup', (e) => {
   }
 });
 
-// 6. Loop de Animação
+// Loop de Animação
 const posAttr = geometry.attributes.position;
 const posOpen = geometryOpen.attributes.position;
 const posClosed = geometryClosed.attributes.position;
@@ -313,3 +344,48 @@ function animate() {
 }
 
 animate();
+
+// ===== CARREGAMENTO DINÂMICO DA ROSA =====
+
+function loadRosa(entrada) {
+  const newTexture = gerarTexturaIdenticon(entrada, 512);
+  newTexture.repeat.set(1.5, 13);
+
+  if (material.map) {
+    material.map.dispose();
+  }
+  material.map = newTexture;
+  material.needsUpdate = true;
+
+  const partes = entrada.split('_');
+  const dataStr = partes[1];
+  const [ano, mes, dia] = dataStr.split('-');
+  const dataObj = new Date(parseInt(ano), parseInt(mes) - 1, parseInt(dia));
+
+  updateTextPanel(dataObj);
+  updateButtons();
+}
+
+loadRosa(currentEntrada);
+
+// ===== EVENT LISTENERS DOS BOTÕES =====
+
+btnPrev.addEventListener('click', (e) => {
+  if (currentIndex > 0) {
+    e.preventDefault();
+    currentIndex--;
+    currentEntrada = montarEntradaIdenticon(todasDatas[currentIndex]);
+    history.replaceState(null, '', 'rosa-identicon.html?data=' + encodeURIComponent(currentEntrada));
+    loadRosa(currentEntrada);
+  }
+});
+
+btnNext.addEventListener('click', (e) => {
+  if (currentIndex < todasDatas.length - 1) {
+    e.preventDefault();
+    currentIndex++;
+    currentEntrada = montarEntradaIdenticon(todasDatas[currentIndex]);
+    history.replaceState(null, '', 'rosa-identicon.html?data=' + encodeURIComponent(currentEntrada));
+    loadRosa(currentEntrada);
+  }
+});
