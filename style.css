@@ -69,6 +69,24 @@ body {
     color: #aaaaaa;
   }
 
+  #download-identicon {
+    margin-top: 8px;
+    padding: 8px 16px;
+    font-size: 0.85em;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  #download-identicon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
   #formula {
     font-size: 1em;
     line-height: 1.6;
@@ -178,6 +196,24 @@ body {
     font-size: 0.7em;
     padding: 0 15px;
     pointer-events: none;
+  }
+
+  #download-identicon {
+    margin-top: 6px;
+    padding: 6px 12px;
+    font-size: 0.75em;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  #download-identicon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.45);
   }
 
   #formula {
