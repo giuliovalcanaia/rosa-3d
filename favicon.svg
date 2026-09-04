@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#1A1A2E"/>
+  <g transform="translate(50,50)">
+    <!-- Centro da rosa -->
+    <circle r="14" fill="#ff0044"/>
+    <!-- Pétalas internas -->
+    <ellipse rx="10" ry="22" fill="#ff3366" transform="rotate(0)"/>
+    <ellipse rx="10" ry="22" fill="#ff3366" transform="rotate(72)"/>
+    <ellipse rx="10" ry="22" fill="#ff3366" transform="rotate(144)"/>
+    <ellipse rx="10" ry="22" fill="#ff3366" transform="rotate(216)"/>
+    <ellipse rx="10" ry="22" fill="#ff3366" transform="rotate(288)"/>
+    <!-- Pétalas externas -->
+    <ellipse rx="12" ry="28" fill="#ff6688" transform="rotate(36)"/>
+    <ellipse rx="12" ry="28" fill="#ff6688" transform="rotate(108)"/>
+    <ellipse rx="12" ry="28" fill="#ff6688" transform="rotate(180)"/>
+    <ellipse rx="12" ry="28" fill="#ff6688" transform="rotate(252)"/>
+    <ellipse rx="12" ry="28" fill="#ff6688" transform="rotate(324)"/>
+  </g>
+</svg>
